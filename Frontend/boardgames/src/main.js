@@ -3,9 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 // Local css
-//import "../public/Styles/classes.scss"
+import "../public/Styles/classes.less"
 // Local icons
-//import "../public/Styles/icons.scss"
+import "../public/Styles/icons.less"
 
 Vue.config.productionTip = false;
 
