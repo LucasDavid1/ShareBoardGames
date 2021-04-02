@@ -20,3 +20,9 @@ npm install
 npm run serve
 ```
 El front va a estar corriendo en el puerto 8080
+
+##### MongoDB Docker
+
+```
+docker-compose up
+```

@@ -40,6 +40,7 @@ export default {
     mongoDB
       .getCategories(6) // Se trae 6 categorias de juegos.
       .then(response => {
+        console.log(response)
         this.categories = response
         response.forEach(el => {
           mongoDB

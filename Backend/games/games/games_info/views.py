@@ -5,7 +5,7 @@ import json
 from pymongo import MongoClient
 import ast
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://root:Calamardo99!@localhost:27017')
 db = client.ShareBoardGames
 games = db.games
 
