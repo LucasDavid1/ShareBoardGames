@@ -42,6 +42,37 @@ const Service = {
             .catch(err => reject(err));
         });
       },
+      getCategories: function(limit) {
+        return new Promise((resolve, reject) => {
+            axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/games_info/categories/',
+                params: {
+                  limit : limit
+                }
+              })
+            .then(response => {
+              resolve(response.data);
+            })
+            .catch(err => reject(err));
+        });
+      },
+      getGamesByCategories: function(limit, category) {
+        return new Promise((resolve, reject) => {
+            axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/games_info/games-by-categories/',
+                params: {
+                  limit : limit,
+                  category : category
+                }
+              })
+            .then(response => {
+              resolve(response.data);
+            })
+            .catch(err => reject(err));
+        });
+      },
 };
 
 export default Service;

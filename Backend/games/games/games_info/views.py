@@ -36,15 +36,29 @@ def retrieve_all(request):
     result = json.dumps(result)
     return HttpResponse(result)
 
-def retrieve_categories(request, limit):
-    games_list = retrieve_games(limit)
+def retrieve_categories(request):
+    limit = int(request.GET["limit"])
+    games_list = retrieve_games(20)
     categories = []
     for game in games_list:
         temp_game_categ = ast.literal_eval(game["boardgamecategory"])
         categories.extend(temp_game_categ) # Se agregan las categorias del juego.
         categories = list(dict.fromkeys(categories)) # Se eliminan los elementos duplicados.        
+    categories = categories[:limit]
     result = json.dumps(categories)
     return HttpResponse(result)
+
+def games_by_category(request):
+    limit = int(request.GET["limit"])
+    category = str(request.GET["category"])
+    game_list = retrieve_games(limit)
+    result = []
+    for game in game_list:
+        temp_game_categ = ast.literal_eval(game["boardgamecategory"])
+        if category in temp_game_categ:
+            result.append(game)
+    result = json.dumps(result)            
+    return HttpResponse(result)      
 
 def search_by_name(request, limit, game_name):   
     result = []
