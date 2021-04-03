@@ -73,6 +73,22 @@ const Service = {
             .catch(err => reject(err));
         });
       },
+      getGamesByName: function(limit, name) {
+        return new Promise((resolve, reject) => {
+            axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/games_info/by-name/',
+                params: {
+                  limit : limit,
+                  game_name : name
+                }
+              })
+            .then(response => {
+              resolve(response.data);
+            })
+            .catch(err => reject(err));
+        });
+      },
 };
 
 export default Service;

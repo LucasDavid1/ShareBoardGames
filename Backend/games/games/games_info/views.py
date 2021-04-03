@@ -60,8 +60,11 @@ def games_by_category(request):
     result = json.dumps(result)            
     return HttpResponse(result)      
 
-def search_by_name(request, limit, game_name):   
+def search_by_name(request):   
+    limit = int(request.GET["limit"])
+    game_name = str(request.GET["game_name"])
     result = []
+    print(game_name)
     query = { "name": {"$regex" : f".*{game_name}.*"} }
     find_games = games.find(query)
 

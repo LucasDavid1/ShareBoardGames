@@ -26,3 +26,13 @@ El front va a estar corriendo en el puerto 8080
 ```
 docker-compose up
 ```
+## Para correrlo solo con el Dockerfile:
+Generar la imagen de la app
+```
+docker build -t games_app .
+```
+Correr la imagen para generar el container en donde estará corriendo la aplicación
+```
+docker run --publish 8080:8080 8000:8000 games_app
+```
+

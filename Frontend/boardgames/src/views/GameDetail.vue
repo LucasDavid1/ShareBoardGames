@@ -2,6 +2,7 @@
     <div class="container">
         <h4>{{ game.name }}</h4>
         <p>Rating: {{ game.average.toFixed(2) }}</p>
+        <p>Premios: {{ game.boardgamehonor }}</p>
         <p>{{ game.description }}</p>
     </div>
 </template>

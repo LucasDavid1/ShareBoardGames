@@ -8,6 +8,6 @@ urlpatterns = [
     path('ping/', views.ping, name='ping'),    
     path('categories/', views.retrieve_categories, name='retrieve_categories'),  
     path('games-by-categories/', views.games_by_category, name='games_by_category'),  
-    path('<int:limit>/<str:game_name>/by-name/', views.search_by_name, name='search_by_name'),    
+    path('by-name/', views.search_by_name, name='search_by_name'),    
     path('admin/', admin.site.urls),
 ]

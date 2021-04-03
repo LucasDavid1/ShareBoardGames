@@ -1,7 +1,14 @@
 <template>
   <div class="home">    
-    <i class="lu-error" title="Play" v-loading="loading"></i>
-    <div class="row" v-for="category in categories">
+    <div class="row container">
+      <el-input
+        placeholder="Buscar juego"
+        prefix-icon="el-icon-search"
+        v-model="searchGameName.name">
+        <el-button slot="append" icon="el-icon-search" @click="searchGame"></el-button>
+      </el-input>      
+    </div>    
+    <div class="row" v-for="category in categories" v-if="!searchGameName.search">
       <div class="container">
         <div class="row">
           <div class="col-sm-2">
@@ -25,6 +32,16 @@
         </div>        
       </div>
     </div> 
+    <div class="row" v-else>
+      <div class="container">
+        <div 
+          class="row game-box" 
+          v-for="game in searchGameName.gamesFetched"
+          @click="toGameDetail(game)">
+          <p>{{ game.name }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +55,8 @@ export default {
       loading: true,
       games: [],
       categories: [],
-      limit: 20
+      limit: 20,
+      searchGameName: {search: false, name: "", gamesFetched: []}
     }
   },
   created() {
@@ -49,10 +67,10 @@ export default {
         response.forEach(el => {
           mongoDB
           .getGamesByCategories(this.limit, el) // Se trae 'limit' juegos por categoria.
-          .then(games_getted => {
+          .then(gamesGetted => {
             this.games.push({
               category: el,
-              games_getted: games_getted
+              games_getted: gamesGetted
             })
             this.loading = false        
           })
@@ -60,6 +78,15 @@ export default {
       })            
   },
   methods: {
+    searchGame() {
+      mongoDB
+      .getGamesByName(this.limit, this.searchGameName.name)
+      .then(gamesGetted => {
+        console.log(gamesGetted)
+        this.searchGameName.search = true
+        this.searchGameName.gamesFetched = gamesGetted
+      })
+    },
     toGameDetail(game) {
       this.$router.push({name: "GameDetail", params: {game: game}})
     }
