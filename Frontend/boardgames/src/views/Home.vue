@@ -1,6 +1,6 @@
 <template>
   <div class="home">    
-    <i class="lu-error" title="Play"></i>
+    <i class="lu-error" title="Play" v-loading="loading"></i>
     <div class="row" v-for="category in categories">
       <div class="container">
         <div class="row">
@@ -10,7 +10,11 @@
           <div class="col-sm-10"></div>    
         </div>        
         <div class="row" v-if="games.find(x => x.category === category)">
-          <div class="col-sm-3 mr-1 mt-1 game-box" v-for="specific_game in games.find(x => x.category === category).games_getted">
+          <div 
+            class="col-sm-3 mr-1 mt-1 game-box" 
+            v-loading="loading"
+            @click="toGameDetail(specific_game)"
+            v-for="specific_game in games.find(x => x.category === category).games_getted">
             {{ specific_game.name }}
           </div>
         </div>
@@ -31,6 +35,7 @@ export default {
   name: 'Home',
   data () {
     return {
+      loading: true,
       games: [],
       categories: [],
       limit: 20
@@ -40,7 +45,6 @@ export default {
     mongoDB
       .getCategories(6) // Se trae 6 categorias de juegos.
       .then(response => {
-        console.log(response)
         this.categories = response
         response.forEach(el => {
           mongoDB
@@ -50,9 +54,15 @@ export default {
               category: el,
               games_getted: games_getted
             })
+            this.loading = false        
           })
-        }) 
-      })      
+        })         
+      })            
+  },
+  methods: {
+    toGameDetail(game) {
+      this.$router.push({name: "GameDetail", params: {game: game}})
+    }
   }
 };
 </script>
