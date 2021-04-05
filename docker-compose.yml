@@ -10,4 +10,12 @@ services:
     volumes:
       - './dockervolume/mongodb:/data/db'
     ports:
-      - 127.0.0.1:27017:27017
+      - 127.0.0.1:27017:27017      
+  redis:    
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - './dockervolume/redis'  
+    ports:
+      - 6379:6379    

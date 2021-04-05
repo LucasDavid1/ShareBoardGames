@@ -1,26 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-import pymongo
 import json
-from pymongo import MongoClient
 import ast
-
-client = MongoClient('mongodb://root:Calamardo99!@localhost:27017')
-db = client.ShareBoardGames
-games = db.games
-
-#################################
-####### Funciones locales #######
-#################################
-
-def retrieve_games(limit):
-    # Retorna una cantidad de juegos
-    games_list=[]
-    for game in games.find():
-        del game['_id']
-        games_list.append(game)
-    games_list = games_list[:limit]    
-    return games_list
+from . import tasks
 
 #################################
 ######### HTTP Requests #########
@@ -32,13 +14,13 @@ def ping(request):
 def retrieve_all(request):
     # Retorna todos los documentos    
     limit = int(request.GET["limit"])
-    result = retrieve_games(limit)   
+    result = tasks.retrieve_games(limit)   
     result = json.dumps(result)
     return HttpResponse(result)
 
 def retrieve_categories(request):
     limit = int(request.GET["limit"])
-    games_list = retrieve_games(20)
+    games_list = tasks.retrieve_games(20)
     categories = []
     for game in games_list:
         temp_game_categ = ast.literal_eval(game["boardgamecategory"])
@@ -51,7 +33,7 @@ def retrieve_categories(request):
 def games_by_category(request):
     limit = int(request.GET["limit"])
     category = str(request.GET["category"])
-    game_list = retrieve_games(limit)
+    game_list = tasks.retrieve_games(limit)
     result = []
     for game in game_list:
         temp_game_categ = ast.literal_eval(game["boardgamecategory"])
@@ -63,13 +45,6 @@ def games_by_category(request):
 def search_by_name(request):   
     limit = int(request.GET["limit"])
     game_name = str(request.GET["game_name"])
-    result = []
-    print(game_name)
-    query = { "name": {"$regex" : f".*{game_name}.*"} }
-    find_games = games.find(query)
-
-    for game in find_games:
-        del game['_id']
-        result.append(game)
+    result = tasks.search_by_name(limit, game_name)    
     result = json.dumps(result)    
     return HttpResponse(result)

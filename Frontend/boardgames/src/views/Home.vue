@@ -8,7 +8,7 @@
         <el-button slot="append" icon="el-icon-search" @click="searchGame"></el-button>
       </el-input>      
     </div>    
-    <div class="row" v-for="category in categories" v-if="!searchGameName.search">
+    <!-- <div class="row" v-for="category in categories" v-if="!searchGameName.search">
       <div class="container">
         <div class="row">
           <div class="col-sm-2">
@@ -31,12 +31,40 @@
           </div>          
         </div>        
       </div>
-    </div> 
+    </div>  -->
+    <div 
+      class="row" 
+      v-for="category in categories" v-if="!searchGameName.search"
+      :key="category">
+      <div class="container">
+        <div class="row">
+          <h5>{{ category }}</h5>        
+        </div>
+        <div class="row" v-if="games.find(x => x.category === category)">
+          <div 
+            class="col-sm mr-1 mt-1">
+            <ul id="hexGrid">
+              <li class="hex" 
+                v-for="specific_game in games.find(x => x.category === category).games_getted"
+                :key="specific_game.name"
+                @click="toGameDetail(specific_game)">
+                <a class="hexIn" href="#">
+                  <img src="https://farm9.staticflickr.com/8461/8048823381_0fbc2d8efb.jpg" alt="" />
+                  <h1>{{ specific_game.name }}</h1>
+                  <p>Some sample text about the article this hexagon leads to</p>
+                </a>
+              </li>
+            </ul>
+          </div>          
+        </div>
+      </div>      
+    </div>
     <div class="row" v-else>
       <div class="container">
         <div 
           class="row game-box" 
           v-for="game in searchGameName.gamesFetched"
+          :key="game.name"
           @click="toGameDetail(game)">
           <p>{{ game.name }}</p>
         </div>
