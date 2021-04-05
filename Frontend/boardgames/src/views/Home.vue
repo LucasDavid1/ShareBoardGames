@@ -34,7 +34,8 @@
     </div>  -->
     <div 
       class="row" 
-      v-for="category in categories" v-if="!searchGameName.search"
+      v-if="!searchGameName.search"
+      v-for="category in categories"
       :key="category">
       <div class="container">
         <div class="row">
@@ -48,10 +49,10 @@
                 v-for="specific_game in games.find(x => x.category === category).games_getted"
                 :key="specific_game.name"
                 @click="toGameDetail(specific_game)">
-                <a class="hexIn" href="#">
-                  <img src="https://farm9.staticflickr.com/8461/8048823381_0fbc2d8efb.jpg" alt="" />
+                <a class="hexIn">
+                  <img src="https://farm8.staticflickr.com/7187/6895047173_d4b1a0d798.jpg"/>
                   <h1>{{ specific_game.name }}</h1>
-                  <p>Some sample text about the article this hexagon leads to</p>
+                  <p>{{ specific_game.description }}</p>
                 </a>
               </li>
             </ul>
