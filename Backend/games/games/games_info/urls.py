@@ -7,7 +7,7 @@ urlpatterns = [
     path('all/', views.retrieve_all, name='retrieve_all'),    
     path('ping/', views.ping, name='ping'),    
     path('categories/', views.retrieve_categories, name='retrieve_categories'),  
-    path('games-by-categories/', views.games_by_category, name='games_by_category'),  
+    path('games-by-categories/', views.games_by_categories, name='games_by_categories'),  
     path('by-name/', views.search_by_name, name='search_by_name'),    
     path('admin/', admin.site.urls),
 ]

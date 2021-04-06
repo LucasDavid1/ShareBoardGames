@@ -57,14 +57,14 @@ const Service = {
             .catch(err => reject(err));
         });
       },
-      getGamesByCategories: function(limit, category) {
+      getGamesByCategories: function(limit, categories) {
         return new Promise((resolve, reject) => {
             axios({
                 method: 'get',
                 url: 'http://127.0.0.1:8000/games_info/games-by-categories/',
                 params: {
                   limit : limit,
-                  category : category
+                  categories : categories
                 }
               })
             .then(response => {

@@ -42,6 +42,13 @@ def games_by_category(request):
     result = json.dumps(result)            
     return HttpResponse(result)      
 
+def games_by_categories(request):
+    limit = int(request.GET["limit"])
+    categories = request.GET.getlist("categories[]")
+    result = tasks.games_and_categories(limit, categories)
+    result = json.dumps(result)            
+    return HttpResponse(result)          
+
 def search_by_name(request):   
     limit = int(request.GET["limit"])
     game_name = str(request.GET["game_name"])

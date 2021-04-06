@@ -84,7 +84,7 @@ export default {
       loading: true,
       games: [],
       categories: [],
-      limit: 20,
+      limit: 100,
       searchGameName: {search: false, name: "", gamesFetched: []}
     }
   },
@@ -93,17 +93,11 @@ export default {
       .getCategories(6) // Se trae 6 categorias de juegos.
       .then(response => {
         this.categories = response
-        response.forEach(el => {
-          mongoDB
-          .getGamesByCategories(this.limit, el) // Se trae 'limit' juegos por categoria.
-          .then(gamesGetted => {
-            this.games.push({
-              category: el,
-              games_getted: gamesGetted
-            })
-            this.loading = false        
-          })
-        })         
+        mongoDB
+        .getGamesByCategories(this.limit, response) // Se trae 'limit' juegos por categoria.
+        .then(gamesGetted => {
+          this.games = gamesGetted
+        })        
       })            
   },
   methods: {
